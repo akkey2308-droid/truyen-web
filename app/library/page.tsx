@@ -180,6 +180,71 @@ export default async function LibraryPage() {
           </div>
         )}
       </div>
+      <footer className="mt-20 border-t border-zinc-800 bg-zinc-950/80">
+  <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    
+    {/* Top */}
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      
+      {/* Left */}
+      <div className="max-w-xl">
+        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">
+          Bãi Rác Vũ Trụ
+        </p>
+
+        <h3 className="mt-2 text-2xl font-semibold text-zinc-100">
+          Kết nối & Ủng hộ
+        </h3>
+
+        <p className="mt-2 text-sm leading-7 text-zinc-400">
+          Theo dõi các nền tảng của mình để cập nhật nội dung mới <br></br>và liên hệ hợp tác.
+        </p>
+      </div>
+
+      {/* Right */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
+        <a
+          href="https://www.inkitt.com/calomama111"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
+        >
+          Inkitt ↗
+        </a>
+
+        <a
+          href="https://www.facebook.com/kitazmizuki"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
+        >
+          Facebook ↗
+        </a>
+
+        <a
+          href="https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
+        >
+          YouTube ↗
+        </a>
+
+        <a
+          href="mailto:akkey2310@gmail.com"
+          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
+        >
+          Email: akkey2310@gmail.com ✉
+        </a>
+      </div>
+    </div>
+
+    {/* Bottom */}
+    <div className="mt-8 border-t border-zinc-800 pt-5 text-center text-sm text-zinc-500">
+      © {new Date().getFullYear()} BRVT. All rights reserved.
+    </div>
+  </div>
+</footer>
     </main>
   );
 }

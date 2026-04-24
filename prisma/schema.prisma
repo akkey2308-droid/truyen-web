@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  cover       String?
+  description String?
+  status      String?
+  createdAt   DateTime  @default(now())
+
+  chapters    Chapter[]
+  progress    ReadingProgress[]
+}
+
+model Chapter {
+  id            Int                @id @default(autoincrement())
+  bookId        Int
+  title         String
+  chapterNumber Float
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  book          Book               @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  paragraphs    ChapterParagraph[]
+
+  @@unique([bookId, chapterNumber])
+}
+
+model ChapterParagraph {
+  id         Int                @id @default(autoincrement())
+  chapterId  Int
+  orderIndex Int
+  content    String
+
+  chapter    Chapter            @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  comments   ParagraphComment[]
+
+  @@unique([chapterId, orderIndex])
+}
+
+model ParagraphComment {
+  id          Int              @id @default(autoincrement())
+  paragraphId Int
+  content     String
+  displayName String?
+  browserId   String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  paragraph   ChapterParagraph @relation(fields: [paragraphId], references: [id], onDelete: Cascade)
+}
+
+model ReadingProgress {
+  id             Int      @id @default(autoincrement())
+  bookId         Int
+  chapterId      Int
+  scrollPosition Int      @default(0)
+  browserId      String?
+  updatedAt      DateTime @updatedAt
+
+  book           Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, browserId])
+}

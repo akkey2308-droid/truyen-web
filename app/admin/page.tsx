@@ -57,7 +57,7 @@ export default async function AdminPage() {
 
   <Link
     href="/library"
-    className="rounded-xl border border-zinc-700 px-5 py-3 font-medium text-zinc-100 transition hover:bg-zinc-800"
+    className="rounded-xl bg-white px-5 py-3 font-medium text-black transition hover:bg-zinc-200"
   >
     Về thư viện
   </Link>

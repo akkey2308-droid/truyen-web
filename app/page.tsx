@@ -1,8 +1,11 @@
+import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import HomeSearch from "@/components/home-search";
+
 export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const cookieStore = await cookies();
   const browserId = cookieStore.get("browserId")?.value || "";
@@ -19,13 +22,7 @@ export default async function HomePage() {
     }),
 
     prisma.readingProgress.findMany({
-      where: browserId
-        ? {
-            browserId,
-          }
-        : {
-            browserId: "__no_browser__",
-          },
+      where: browserId ? { browserId } : { browserId: "__no_browser__" },
       orderBy: { updatedAt: "desc" },
       take: 4,
       include: {
@@ -35,20 +32,24 @@ export default async function HomePage() {
   ]);
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-[#f5f1e8] text-zinc-950 dark:bg-zinc-950 dark:text-zinc-100">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <section className="rounded-3xl border border-zinc-800 bg-zinc-900 px-6 py-10 sm:px-10 sm:py-14">
+        <div className="mb-5 flex justify-end">
+          <ThemeToggle />
+        </div>
+
+        <section className="rounded-3xl border border-stone-300 bg-[#faf7f0] px-6 py-10 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:px-10 sm:py-14">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px] lg:items-center">
             <div className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.25em] text-amber-400">
+              <p className="text-sm uppercase tracking-[0.25em] text-amber-500 dark:text-amber-400">
                 Dirty Tiger
               </p>
 
               <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
-                 Bãi Rác Vũ Trụ 
+                Bãi Rác Vũ Trụ
               </h1>
 
-              <p className="mt-5 max-w-2xl text-base leading-8 text-zinc-400 sm:text-lg">
+              <p className="mt-5 max-w-2xl text-base leading-8 text-stone-600 dark:text-zinc-400 sm:text-lg">
                 循此苦旅，终抵繁星
               </p>
 
@@ -58,28 +59,28 @@ export default async function HomePage() {
             </div>
 
             <div className="space-y-4">
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
-                <p className="text-sm text-zinc-400">Bắt đầu đọc</p>
+              <div className="rounded-2xl border border-stone-300 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-950">
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  Bắt đầu đọc
+                </p>
 
-                <h2 className="mt-2 text-2xl font-semibold text-zinc-100">
+                <h2 className="mt-2 text-2xl font-semibold">
                   Vào thư viện ngay
                 </h2>
 
-                <p className="mt-2 text-sm leading-7 text-zinc-500">
+                <p className="mt-2 text-sm leading-7 text-zinc-500 dark:text-zinc-500">
                   Mở thư viện để xem danh sách, tiếp tục đọc.
                 </p>
 
                 <div className="mt-5">
                   <Link
                     href="/library"
-                    className="inline-flex w-full justify-center rounded-xl bg-white px-5 py-3 font-medium text-black transition hover:bg-zinc-200"
+                    className="inline-flex w-full justify-center rounded-xl bg-zinc-950 px-5 py-3 font-medium text-white transition hover:bg-zinc-800 dark:bg-[#faf7f0] dark:text-black dark:hover:bg-zinc-200"
                   >
                     Vào thư viện
                   </Link>
                 </div>
               </div>
-
-              
             </div>
           </div>
         </section>
@@ -91,17 +92,17 @@ export default async function HomePage() {
 
           <div className="grid gap-4 lg:grid-cols-4">
             {recentProgress.length === 0 ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-zinc-400">
+              <div className="rounded-2xl border border-stone-300 bg-[#faf7f0] p-6 text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
                 Chưa có lịch sử đọc gần đây.
               </div>
             ) : (
               recentProgress.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+                  className="rounded-2xl border border-stone-300 bg-[#faf7f0] p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
                 >
                   <div className="flex gap-3">
-                    <div className="h-28 w-20 shrink-0 overflow-hidden rounded-xl bg-zinc-800">
+                    <div className="h-28 w-20 shrink-0 overflow-hidden rounded-xl bg-zinc-200 dark:bg-zinc-800">
                       {item.book.cover ? (
                         <img
                           src={item.book.cover}
@@ -125,14 +126,14 @@ export default async function HomePage() {
                       <div className="mt-4 flex flex-wrap gap-2">
                         <Link
                           href={`/chapter/${item.chapterId}`}
-                          className="rounded-lg bg-white px-3 py-2 text-sm font-medium text-black"
+                          className="rounded-lg bg-zinc-950 px-3 py-2 text-sm font-medium text-white dark:bg-[#faf7f0] dark:text-black"
                         >
                           Đọc tiếp
                         </Link>
 
                         <Link
                           href={`/book/${item.book.slug}`}
-                          className="rounded-lg border border-zinc-700 px-3 py-2 text-sm"
+                          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700"
                         >
                           Chi tiết
                         </Link>
@@ -151,7 +152,7 @@ export default async function HomePage() {
 
             <Link
               href="/library"
-              className="text-sm text-zinc-400 hover:text-zinc-200"
+              className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
             >
               Xem tất cả →
             </Link>
@@ -162,9 +163,9 @@ export default async function HomePage() {
               <Link
                 key={book.id}
                 href={`/book/${book.slug}`}
-                className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition hover:bg-zinc-800"
+                className="overflow-hidden rounded-2xl border border-stone-300 bg-[#faf7f0] shadow-sm transition hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
               >
-                <div className="aspect-[3/4] w-full bg-zinc-800">
+                <div className="aspect-[3/4] w-full bg-zinc-200 dark:bg-zinc-800">
                   {book.cover ? (
                     <img
                       src={book.cover}
@@ -190,71 +191,54 @@ export default async function HomePage() {
           </div>
         </section>
       </div>
-      <footer className="mt-20 border-t border-zinc-800 bg-zinc-950/80">
-  <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-    
-    {/* Top */}
-    <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-      
-      {/* Left */}
-      <div className="max-w-xl">
-        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">
-          Bãi Rác Vũ Trụ
-        </p>
 
-        <h3 className="mt-2 text-2xl font-semibold text-zinc-100">
-          Kết nối & Ủng hộ
-        </h3>
+      <footer className="mt-20 border-t border-stone-300 bg-[#faf7f0]/80 dark:border-zinc-800 dark:bg-zinc-950/80">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl">
+              <p className="text-xs uppercase tracking-[0.35em] text-amber-500 dark:text-amber-400">
+                Bãi Rác Vũ Trụ
+              </p>
 
-        <p className="mt-2 text-sm leading-7 text-zinc-400">
-          Theo dõi các nền tảng của mình để cập nhật nội dung mới <br></br>và liên hệ hợp tác.
-        </p>
-      </div>
+              <h3 className="mt-2 text-2xl font-semibold">Kết nối & Ủng hộ</h3>
 
-      {/* Right */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
-        <a
-          href="https://www.inkitt.com/calomama111"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
-        >
-          Inkitt ↗
-        </a>
+              <p className="mt-2 text-sm leading-7 text-stone-600 dark:text-zinc-400">
+                Theo dõi các nền tảng của mình để cập nhật nội dung mới
+                <br />
+                và liên hệ hợp tác.
+              </p>
+            </div>
 
-        <a
-          href="https://www.facebook.com/kitazmizuki"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
-        >
-          Facebook ↗
-        </a>
+            <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
+              {[
+                ["Inkitt ↗", "https://www.inkitt.com/calomama111"],
+                ["Facebook ↗", "https://www.facebook.com/kitazmizuki"],
+                [
+                  "YouTube ↗",
+                  "https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg",
+                ],
+              ].map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-xl border border-stone-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-800 transition hover:border-amber-500/40 hover:bg-[#f5f1e8] dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                >
+                  {label}
+                </a>
+              ))}
 
-        <a
-          href="https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
-        >
-          YouTube ↗
-        </a>
-
-        <a
-          href="mailto:akkey2310@gmail.com"
-          className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 transition hover:border-amber-500/40 hover:bg-zinc-800"
-        >
-          Email: akkey2310@gmail.com ✉
-        </a>
-      </div>
-    </div>
-
-    {/* Bottom */}
-    <div className="mt-8 border-t border-zinc-800 pt-5 text-center text-sm text-zinc-500">
-      © {new Date().getFullYear()} BRVT. All rights reserved.
-    </div>
-  </div>
-</footer>
+              <a
+                href="mailto:akkey2310@gmail.com"
+                className="rounded-xl border border-stone-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-800 transition hover:border-amber-500/40 hover:bg-[#f5f1e8] dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              >
+                Email: akkey2310@gmail.com ✉
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

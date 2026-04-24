@@ -38,34 +38,36 @@ export default function HomeSearch() {
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder="Tìm truyện..."
-        className="w-full rounded-2xl border border-zinc-700 bg-black px-5 py-4 text-zinc-100 outline-none transition focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+        className="w-full rounded-2xl border border-stone-300 bg-zinc-50 px-5 py-4 text-zinc-950 placeholder:text-stone-500 outline-none transition focus:border-amber-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500"
       />
 
       {books.length > 0 && (
-        <div className="mt-3 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
-          {books.map((book) => (
-            <Link
-              key={book.id}
-              href={`/book/${book.slug}`}
-              className="flex items-center gap-3 border-b border-zinc-800 px-4 py-3 transition hover:bg-zinc-800 last:border-0"
-            >
-              <div className="h-14 w-10 shrink-0 overflow-hidden rounded-lg bg-zinc-800">
-                {book.cover ? (
-                  <img
-                    src={book.cover}
-                    alt={book.title}
-                    className="block h-full w-full object-cover"
-                  />
-                ) : null}
-              </div>
-
-              <span className="line-clamp-1">
-                {book.title}
-              </span>
-            </Link>
-          ))}
+  <div className="mt-3 overflow-hidden rounded-2xl border border-stone-300 bg-zinc-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    {books.map((book) => (
+      <Link
+        key={book.id}
+        href={`/book/${book.slug}`}
+        className="flex items-center gap-3 border-b border-stone-300 px-4 py-3 text-zinc-950 transition last:border-0 hover:bg-stone-100 dark:border-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-800"
+      >
+        <div className="h-14 w-10 shrink-0 overflow-hidden rounded-lg bg-stone-200 dark:bg-zinc-800">
+          {book.cover ? (
+            <img
+              src={book.cover}
+              alt={book.title}
+              className="block h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-[9px] text-stone-500 dark:text-zinc-500">
+              No Cover
+            </div>
+          )}
         </div>
-      )}
+
+        <span className="line-clamp-1 font-medium">{book.title}</span>
+      </Link>
+    ))}
+  </div>
+)}
     </div>
   );
 }

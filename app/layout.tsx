@@ -1,3 +1,4 @@
+import ThemeProvider from "@/components/theme-provider";
 import type { Metadata } from "next";
 import "./globals.css";
 import BrowserIdSync from "@/components/browser-id-sync";
@@ -13,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi">
-      <body className="min-h-screen bg-black text-zinc-100">
-        <BrowserIdSync />
-        {children}
+    <html lang="vi" suppressHydrationWarning>
+      <body className="min-h-screen bg-zinc-100 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-100">
+        <ThemeProvider>
+          <BrowserIdSync />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

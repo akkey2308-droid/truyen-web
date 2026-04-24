@@ -34,11 +34,10 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-zinc-950 dark:bg-zinc-950 dark:text-zinc-100">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mb-5 flex justify-end">
+        <section className="relative rounded-3xl border border-stone-300 bg-[#faf7f0] px-6 py-10 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:px-10 sm:py-14">
+          <div className="absolute right-6 top-6 sm:right-10 sm:top-6 z-10">
           <ThemeToggle />
         </div>
-
-        <section className="rounded-3xl border border-stone-300 bg-[#faf7f0] px-6 py-10 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:px-10 sm:py-14">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px] lg:items-center">
             <div className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.25em] text-amber-500 dark:text-amber-400">

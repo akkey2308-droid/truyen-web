@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
 type Props = {
   params: Promise<{ id: string }>;
 };
-
+export const dynamic = "force-dynamic";
 export default async function ChapterPage({ params }: Props) {
   const { id } = await params;
   const chapterId = Number(id);

@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 type Props = {
   params: Promise<{ slug: string }>;
 };
-
+export const dynamic = "force-dynamic";
 export default async function BookDetailPage({ params }: Props) {
   const { slug } = await params;
   const cookieStore = await cookies();

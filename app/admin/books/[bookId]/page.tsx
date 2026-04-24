@@ -9,7 +9,7 @@ type Props = {
     bookId: string;
   }>;
 };
-
+export const dynamic = "force-dynamic";
 export default async function AdminBookDetailPage({ params }: Props) {
   const { bookId } = await params;
   const id = Number(bookId);

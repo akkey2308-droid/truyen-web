@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-
+export const dynamic = "force-dynamic";
 export default async function LibraryPage() {
   const cookieStore = await cookies();
   const browserId = cookieStore.get("browserId")?.value || "";

@@ -1,4 +1,4 @@
-import AutoLinkText from "@/components/auto-link-text";
+﻿import AutoLinkText from "@/components/auto-link-text";
 import { cookies } from "next/headers";
 import ChapterSelect from "@/components/chapter-select";
 import ParagraphCommentButton from "@/components/paragraph-comment-button";
@@ -182,9 +182,20 @@ export default async function ChapterPage({ params }: Props) {
                   key={paragraph.id}
                   className="group rounded-xl transition"
                 >
-                  <p className="text-[17px] leading-9 text-zinc-900 dark:text-zinc-200 sm:text-[18px]">
-                    <AutoLinkText text={paragraph.content} />
-                  </p>
+                  {paragraph.content.startsWith("[[IMAGE:") &&
+paragraph.content.endsWith("]]") ? (
+  <div className="my-6 overflow-hidden rounded-2xl border border-stone-300 bg-stone-100 dark:border-zinc-800 dark:bg-zinc-950">
+    <img
+      src={paragraph.content.replace("[[IMAGE:", "").replace("]]", "")}
+      alt="Ảnh trong chương"
+      className="mx-auto block max-h-[720px] w-full object-contain"
+    />
+  </div>
+) : (
+  <p className="text-[17px] leading-9 text-zinc-900 dark:text-zinc-200 sm:text-[18px]">
+    <AutoLinkText text={paragraph.content} />
+  </p>
+)}
 
                   <div className="mt-3 flex justify-end">
                     <ParagraphCommentButton

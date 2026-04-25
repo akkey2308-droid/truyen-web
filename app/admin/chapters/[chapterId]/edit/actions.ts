@@ -1,7 +1,9 @@
-"use server";
+﻿"use server";
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import fs from "fs/promises";
+import path from "path";
 
 function splitParagraphs(content: string) {
   return content
@@ -10,10 +12,24 @@ function splitParagraphs(content: string) {
     .filter(Boolean);
 }
 
+async function deleteMediaFile(mediaPath: string) {
+  if (!mediaPath.startsWith("/media/")) return;
+
+  try {
+    const fileName = path.basename(mediaPath);
+    const uploadDir =
+      process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads");
+
+    await fs.unlink(path.join(uploadDir, fileName));
+  } catch {
+    // bỏ qua nếu file không tồn tại
+  }
+}
+
 export async function updateChapter(chapterId: number, formData: FormData) {
   const title = String(formData.get("title") || "").trim();
   const chapterNumberValue = String(formData.get("chapterNumber") || "").trim();
-  const content = String(formData.get("content") || "").trim();
+  let content = String(formData.get("content") || "").trim();
 
   if (!title) {
     throw new Error("Tên chương không được để trống.");
@@ -21,7 +37,9 @@ export async function updateChapter(chapterId: number, formData: FormData) {
 
   const chapterNumber = Number(chapterNumberValue);
 
-  
+  if (!Number.isFinite(chapterNumber)) {
+    throw new Error("Số chương không hợp lệ.");
+  }
 
   if (!content) {
     throw new Error("Nội dung chương không được để trống.");

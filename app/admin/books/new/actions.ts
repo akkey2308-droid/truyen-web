@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -48,7 +48,7 @@ export async function createBook(formData: FormData) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    const uploadDir = process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads");
     await fs.mkdir(uploadDir, { recursive: true });
 
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
@@ -56,7 +56,7 @@ export async function createBook(formData: FormData) {
     const filePath = path.join(uploadDir, fileName);
 
     await fs.writeFile(filePath, buffer);
-    cover = `/uploads/${fileName}`;
+    cover = `/media/${fileName}`;
   }
 
   await prisma.book.create({

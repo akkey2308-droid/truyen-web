@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -13,6 +13,20 @@ function normalizeSlug(input: string) {
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
+}
+
+async function deleteCoverFile(coverPath: string | null) {
+  if (!coverPath || !coverPath.startsWith("/media/")) return;
+
+  try {
+    const fileName = path.basename(coverPath);
+    const uploadDir =
+      process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads");
+
+    await fs.unlink(path.join(uploadDir, fileName));
+  } catch {
+    // bỏ qua nếu file không tồn tại
+  }
 }
 
 export async function updateBook(bookId: number, formData: FormData) {
@@ -44,9 +58,7 @@ export async function updateBook(bookId: number, formData: FormData) {
   const duplicatedBook = await prisma.book.findFirst({
     where: {
       slug,
-      NOT: {
-        id: bookId,
-      },
+      NOT: { id: bookId },
     },
   });
 
@@ -57,14 +69,19 @@ export async function updateBook(bookId: number, formData: FormData) {
   let cover = book.cover;
 
   if (removeCover) {
+    await deleteCoverFile(book.cover);
     cover = null;
   }
 
   if (file && file.size > 0) {
+    await deleteCoverFile(book.cover);
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    const uploadDir =
+      process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads");
+
     await fs.mkdir(uploadDir, { recursive: true });
 
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
@@ -73,7 +90,7 @@ export async function updateBook(bookId: number, formData: FormData) {
     const filePath = path.join(uploadDir, fileName);
 
     await fs.writeFile(filePath, buffer);
-    cover = `/uploads/${fileName}`;
+    cover = `/media/${fileName}`;
   }
 
   await prisma.book.update({

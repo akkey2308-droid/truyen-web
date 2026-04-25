@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -92,10 +92,11 @@ export default async function AdminPage() {
                   {book.cover ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={book.cover}
-                      alt={book.title}
-                      className="block h-full w-full object-cover"
-                    />
+  key={book.cover}
+  src={book.cover + "?v=" + Date.now()}
+  alt={book.title}
+  className="block h-full w-full object-cover"
+/>
                   ) : (
                     <div className="flex h-full items-center justify-center text-sm text-zinc-500">
                       No Cover
@@ -104,10 +105,9 @@ export default async function AdminPage() {
                 </div>
 
                 <div className="space-y-3 p-4">
-                  <h2 className="line-clamp-2 text-lg font-semibold">
+            <h2 className="line-clamp-2 text-lg font-semibold">
                     {book.title}
                   </h2>
-
                   <p className="text-sm text-zinc-500">
                     {book.chapters.length} chương
                   </p>

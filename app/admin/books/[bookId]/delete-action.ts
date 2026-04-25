@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -21,14 +21,13 @@ export async function deleteBook(bookId: number) {
     where: { id: bookId },
   });
 
-  if (coverPath && coverPath.startsWith("/uploads/")) {
-    const fileName = coverPath.replace("/uploads/", "");
-    const absolutePath = path.join(
-      process.cwd(),
-      "public",
-      "uploads",
-      fileName
-    );
+  if (coverPath && coverPath.startsWith("/media/")) {
+    const fileName = coverPath.replace("/media/", "");
+
+    const uploadDir =
+      process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads");
+
+    const absolutePath = path.join(uploadDir, fileName);
 
     try {
       await fs.unlink(absolutePath);

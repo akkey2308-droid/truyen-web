@@ -1,3 +1,4 @@
+﻿import Image from "next/image";
 import ThemeToggle from "@/components/theme-toggle";
 import Link from "next/link";
 import { cookies } from "next/headers";
@@ -39,36 +40,49 @@ export default async function HomePage() {
           <ThemeToggle />
         </div>
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_360px] lg:items-center">
-            <div className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.25em] text-amber-500 dark:text-amber-400">
-                Dirty Tiger
-              </p>
+		<div className="grid items-center gap-8 lg:grid-cols-[180px_1fr]">
+  <div className="flex justify-center lg:justify-start">
+    <Image
+      src="/logo/logo.png"
+      alt="Logo"
+      width={160}
+      height={220}
+      className="rounded-xl object-contain"
+      priority
+    />
+  </div>
 
-              <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">
-                Bãi Rác Vũ Trụ
-              </h1>
+  <div className="max-w-3xl">
+    <p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-500 dark:text-amber-400">
+      DỜ THIẾU HIỆP
+    </p>
 
-              <p className="mt-5 max-w-2xl text-base leading-8 text-stone-600 dark:text-zinc-400 sm:text-lg">
-                循此苦旅，终抵繁星
-              </p>
+    <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl leading-tight">
+      Sọt Khoai Tây
+    </h1>
 
-              <div className="mt-8 max-w-xl">
-                <HomeSearch />
-              </div>
-            </div>
+    <p className="mt-5 max-w-2xl text-base leading-8 text-stone-600 dark:text-zinc-400 sm:text-lg">
+      Web Khoai Tây Low Cost.
+    </p>
+
+    <div className="mt-8 max-w-xl">
+      <HomeSearch />
+    </div>
+  </div>
+</div>
 
             <div className="space-y-4">
               <div className="rounded-2xl border border-stone-300 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-950">
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  Bắt đầu đọc
+                  Ngằng ngằng ngằng
                 </p>
 
                 <h2 className="mt-2 text-2xl font-semibold">
-                  Vào thư viện ngay
+                  Vào sọt khoai tây ngay!
                 </h2>
 
                 <p className="mt-2 text-sm leading-7 text-zinc-500 dark:text-zinc-500">
-                  Mở thư viện để xem danh sách, tiếp tục đọc.
+                  Mở sọt khoai tây để xem khoai tây!
                 </p>
 
                 <div className="mt-5">
@@ -76,7 +90,7 @@ export default async function HomePage() {
                     href="/library"
                     className="inline-flex w-full justify-center rounded-xl bg-zinc-950 px-5 py-3 font-medium text-white transition hover:bg-zinc-800 dark:bg-[#faf7f0] dark:text-black dark:hover:bg-zinc-200"
                   >
-                    Vào thư viện
+                    Vào Sọt!
                   </Link>
                 </div>
               </div>
@@ -147,7 +161,7 @@ export default async function HomePage() {
 
         <section className="mt-14">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Truyện mới thêm</h2>
+            <h2 className="text-2xl font-bold">Khoai cắn dở</h2>
 
             <Link
               href="/library"
@@ -196,13 +210,13 @@ export default async function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.35em] text-amber-500 dark:text-amber-400">
-                Bãi Rác Vũ Trụ
+                DỜ THIẾU HIỆP
               </p>
 
               <h3 className="mt-2 text-2xl font-semibold">Kết nối & Ủng hộ</h3>
 
               <p className="mt-2 text-sm leading-7 text-stone-600 dark:text-zinc-400">
-                Theo dõi các nền tảng của mình để cập nhật nội dung mới
+                Liên hệ với mình nếu con web khoai tây lỏ này có vấn đề
                 <br />
                 và liên hệ hợp tác.
               </p>
@@ -210,8 +224,8 @@ export default async function HomePage() {
 
             <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
               {[
-                ["Inkitt ↗", "https://www.inkitt.com/calomama111"],
-                ["Facebook ↗", "https://www.facebook.com/kitazmizuki"],
+                ["Wattpad ↗", "https://www.wattpad.com/user/Calomama111"],
+                ["Wordpress ↗", "https://bairacvutru.wordpress.com/"],
                 [
                   "YouTube ↗",
                   "https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg",

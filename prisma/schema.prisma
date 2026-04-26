@@ -14,6 +14,7 @@ model Book {
   cover       String?
   description String?
   status      String?
+  viewCount   Int       @default(0)
   createdAt   DateTime  @default(now())
 
   chapters    Chapter[]
@@ -30,10 +31,22 @@ model Chapter {
 
   book          Book               @relation(fields: [bookId], references: [id], onDelete: Cascade)
   paragraphs    ChapterParagraph[]
+  comments      ChapterComment[]
 
   @@unique([bookId, chapterNumber])
 }
 
+model ChapterComment {
+  id          Int      @id @default(autoincrement())
+  chapterId   Int
+  content     String
+  displayName String?
+  browserId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
 model ChapterParagraph {
   id         Int                @id @default(autoincrement())
   chapterId  Int

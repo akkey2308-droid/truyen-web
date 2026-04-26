@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
@@ -37,22 +37,22 @@ export default async function LibraryPage() {
           <div className="max-w-3xl">
             <Link href="/" className="block w-fit">
               <p className="text-xs uppercase tracking-[0.35em] text-amber-500 transition hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300">
-                Bãi Rác Vũ Trụ
+                DỜ THIẾU HIỆP
               </p>
             </Link>
 
             <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-              Thư viện truyện
+              Sọt khoai
             </h1>
 
             <p className="mt-4 text-stone-600 dark:text-zinc-400">
-              Đọc tiếp và theo dõi kho truyện của Dờ.
+              Gặm tiếp khoai của Dờ
             </p>
           </div>
 
           <div className="w-full max-w-[220px] rounded-2xl border border-stone-300 bg-[#faf7f0] p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 lg:shrink-0">
             <p className="text-sm text-stone-600 dark:text-zinc-400">
-              Tổng truyện
+              Tổng kho
             </p>
 
             <p className="mt-2 text-4xl font-bold text-amber-500 dark:text-amber-400">
@@ -62,7 +62,7 @@ export default async function LibraryPage() {
         </div>
 
         <div className="mt-12 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Kho truyện</h2>
+          <h2 className="text-2xl font-semibold">Sọt</h2>
 
           <Link
             href="/"
@@ -184,13 +184,13 @@ export default async function LibraryPage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.35em] text-amber-500 dark:text-amber-400">
-                Bãi Rác Vũ Trụ
+                Dờ Thiếu Hiệp
               </p>
 
               <h3 className="mt-2 text-2xl font-semibold">Kết nối & Ủng hộ</h3>
 
               <p className="mt-2 text-sm leading-7 text-stone-600 dark:text-zinc-400">
-                Theo dõi các nền tảng của mình để cập nhật nội dung mới
+                Liên hệ với mình nếu con web khoai tây lỏ này có vấn đề
                 <br />
                 và liên hệ hợp tác.
               </p>
@@ -198,8 +198,8 @@ export default async function LibraryPage() {
 
             <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
               {[
-                ["Inkitt ↗", "https://www.inkitt.com/calomama111"],
-                ["Facebook ↗", "https://www.facebook.com/kitazmizuki"],
+                ["Wattpad ↗", "https://www.wattpad.com/user/Calomama111"],
+                ["Wordpress ↗", "https://bairacvutru.wordpress.com/"],
                 [
                   "YouTube ↗",
                   "https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg",

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
@@ -36,6 +36,37 @@ export default async function BookDetailPage({ params }: Props) {
     notFound();
   }
 
+  await prisma.book.update({
+    where: { id: book.id },
+    data: {
+      viewCount: {
+        increment: 1,
+      },
+    },
+  });
+
+  const [chapterCommentCount, paragraphCommentCount] = await Promise.all([
+    prisma.chapterComment.count({
+      where: {
+        chapter: {
+          bookId: book.id,
+        },
+      },
+    }),
+
+    prisma.paragraphComment.count({
+      where: {
+        paragraph: {
+          chapter: {
+            bookId: book.id,
+          },
+        },
+      },
+    }),
+  ]);
+
+  const totalCommentCount = chapterCommentCount + paragraphCommentCount;
+
   const firstChapter = book.chapters[0] ?? null;
   const latestChapter = book.chapters[book.chapters.length - 1] ?? null;
   const continueReading = book.progress[0] ?? null;
@@ -48,7 +79,7 @@ export default async function BookDetailPage({ params }: Props) {
             href="/library"
             className="text-sm text-stone-600 transition hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-200"
           >
-            ← Thư viện
+            ← Sọt khoai tây
           </Link>
 
           <span className="text-stone-400 dark:text-zinc-700">•</span>
@@ -74,26 +105,38 @@ export default async function BookDetailPage({ params }: Props) {
           <div className="flex flex-col gap-6">
             <div>
               <p className="text-sm uppercase tracking-[0.2em] text-amber-500 dark:text-amber-400">
-                Bãi Rác Vũ Trụ
+                Dờ Thiếu Hiệp
               </p>
 
               <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
                 {book.title}
               </h1>
 
-              {book.status && (
-                <div className="mt-4">
+              <div className="mt-4 flex items-center justify-between gap-4">
+                {book.status ? (
                   <span
                     className={`inline-flex rounded-full border px-3 py-1 text-sm font-medium ${
                       book.status === "Hoàn thành"
-                        ? "border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400"
+                        ? "border-green-500/30 bg-green-500/10 text-green-500 dark:text-green-400"
                         : "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400"
                     }`}
                   >
                     {book.status}
                   </span>
+                ) : (
+                  <span />
+                )}
+
+                <div className="flex flex-wrap justify-end gap-2">
+                  <span className="rounded-full border border-stone-300 bg-[#faf7f0] px-3 py-1 text-sm text-stone-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+                    👁 {book.viewCount ?? 0} lượt xem
+                  </span>
+
+                  <span className="rounded-full border border-stone-300 bg-[#faf7f0] px-3 py-1 text-sm text-stone-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
+                    💬 {totalCommentCount} bình luận
+                  </span>
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="rounded-2xl border border-stone-300 bg-[#faf7f0] p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
@@ -192,13 +235,13 @@ export default async function BookDetailPage({ params }: Props) {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.35em] text-amber-500 dark:text-amber-400">
-                Bãi Rác Vũ Trụ
+                Dờ Thiếu Hiệp
               </p>
 
               <h3 className="mt-2 text-2xl font-semibold">Kết nối & Ủng hộ</h3>
 
               <p className="mt-2 text-sm leading-7 text-stone-600 dark:text-zinc-400">
-                Theo dõi các nền tảng của mình để cập nhật nội dung mới
+                Liên hệ với mình nếu con web khoai tây lỏ này có vấn đề
                 <br />
                 và liên hệ hợp tác.
               </p>
@@ -206,8 +249,8 @@ export default async function BookDetailPage({ params }: Props) {
 
             <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
               {[
-                ["Inkitt ↗", "https://www.inkitt.com/calomama111"],
-                ["Facebook ↗", "https://www.facebook.com/kitazmizuki"],
+                ["Wattpad ↗", "https://www.wattpad.com/user/Calomama111"],
+                ["Wordpress ↗", "https://bairacvutru.wordpress.com/"],
                 [
                   "YouTube ↗",
                   "https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg",

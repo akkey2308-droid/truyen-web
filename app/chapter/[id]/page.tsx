@@ -1,4 +1,5 @@
-﻿import AutoLinkText from "@/components/auto-link-text";
+﻿import ChapterCommentSection from "@/components/chapter-comment-section";
+import AutoLinkText from "@/components/auto-link-text";
 import { cookies } from "next/headers";
 import ChapterSelect from "@/components/chapter-select";
 import ParagraphCommentButton from "@/components/paragraph-comment-button";
@@ -49,6 +50,11 @@ export default async function ChapterPage({ params }: Props) {
           },
         },
       },
+	comments: {
+  orderBy: {
+    createdAt: "desc",
+  },
+},
     },
   });
 
@@ -125,7 +131,7 @@ export default async function ChapterPage({ params }: Props) {
                 href="/library"
                 className="text-stone-500 transition hover:text-zinc-950 dark:text-zinc-500 dark:hover:text-zinc-300"
               >
-                Thư viện
+                Sọt khoai tây
               </Link>
             </div>
 
@@ -248,19 +254,22 @@ paragraph.content.endsWith("]]") ? (
           )}
         </div>
       </div>
-
+	<ChapterCommentSection
+  chapterId={chapter.id}
+  comments={chapter.comments}
+/>
       <footer className="mt-20 border-t border-stone-300 bg-[#faf7f0]/80 dark:border-zinc-800 dark:bg-zinc-950/80">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.35em] text-amber-500 dark:text-amber-400">
-                Bãi Rác Vũ Trụ
+                Dờ Thiếu Hiệp
               </p>
 
               <h3 className="mt-2 text-2xl font-semibold">Kết nối & Ủng hộ</h3>
 
               <p className="mt-2 text-sm leading-7 text-stone-600 dark:text-zinc-400">
-                Theo dõi các nền tảng của mình để cập nhật nội dung mới
+                Liên hệ với mình nếu con web khoai tây lỏ này có vấn đề
                 <br />
                 và liên hệ hợp tác.
               </p>
@@ -268,8 +277,8 @@ paragraph.content.endsWith("]]") ? (
 
             <div className="grid gap-3 sm:grid-cols-2 lg:w-[620px]">
               {[
-                ["Inkitt ↗", "https://www.inkitt.com/calomama111"],
-                ["Facebook ↗", "https://www.facebook.com/kitazmizuki"],
+                ["Wattpad ↗", "https://www.wattpad.com/user/Calomama111"],
+                ["Wordpress ↗", "https://bairacvutru.wordpress.com/"],
                 [
                   "YouTube ↗",
                   "https://www.youtube.com/channel/UCiwCL4XR-P-zwg0VwddgrHg",
